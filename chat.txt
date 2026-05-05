@@ -1,0 +1,26 @@
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// 1. Configuração da API com a sua chave
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+async function executar() {
+  // 2. Definindo o modelo 
+  const modelo = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+
+  const pergunta = "Olá Gemini! Como você pode ajudar meus alunos de tecnologia?";
+
+  try {
+    // 3. Enviando a mensagem e aguardando a resposta
+    const resultado = await modelo.generateContent(pergunta);
+    const resposta = await resultado.response;
+    const texto = resposta.text();
+
+    console.log("Pergunta:", pergunta);
+    console.log("---");
+    console.log("Resposta do Gemini:", texto);
+  } catch (erro) {
+    console.error("Erro ao conectar com a API:", erro);
+  }
+}
+
+executar();
